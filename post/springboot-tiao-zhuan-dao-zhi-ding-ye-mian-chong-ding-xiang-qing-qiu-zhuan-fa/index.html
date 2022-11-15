@@ -1,0 +1,215 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SpringBoot-跳转到指定页面、重定向、请求转发 | PANDACODE</title>
+<link rel="shortcut icon" href="https://PandaBYCode.github.io/favicon.ico?v=1668487344945">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://PandaBYCode.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="SpringBoot-跳转到指定页面、重定向、请求转发 | PANDACODE - Atom Feed" href="https://PandaBYCode.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="一 、springboot跳转到指定页面
+直接在controller中return页面就可以跳转到指定页面
+二、springboot重定向
+使用 &quot;redirect&quot; 关键字（不是指java关键字），注意：类的注解不能使..." />
+    <meta name="keywords" content="SpringBoot" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://PandaBYCode.github.io">
+  <img class="avatar" src="https://PandaBYCode.github.io/images/avatar.png?v=1668487344945" alt="">
+  </a>
+  <h1 class="site-title">
+    PANDACODE
+  </h1>
+  <p class="site-description">
+    我亦无他，唯手熟尔
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Git0814" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              SpringBoot-跳转到指定页面、重定向、请求转发
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-11-04
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://PandaBYCode.github.io/tag/n3tC7_8P_/" class="post-tag">
+                  # SpringBoot
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><strong>一 、springboot跳转到指定页面</strong><br>
+直接在controller中return页面就可以跳转到指定页面</p>
+<p><strong>二、springboot重定向</strong><br>
+使用 &quot;redirect&quot; 关键字（不是指java关键字），注意：类的注解<code>不能使用@RestController，要用@Controller</code>；因为@RestController内含@ResponseBody，解析返回的是json串。不是跳转页面。<br>
+例如：如果使用的是@RestController的话  return &quot;redirect:/success&quot;;只会返回redirect:/success给页面，而不会起到重定向的作用</p>
+<p><strong>三、springboot的请求转发</strong><br>
+使用 &quot;forward&quot; 关键字（不是指java关键字），注意：<code>类的注解不能使用@RestController 要用@Controller</code> 方法和注意事项和第二个内容相似。</p>
+<p>再聊聊@RestController和@Controller的区别</p>
+<pre><code>@Controller内容：
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Component
+    public @interface Controller {
+        @AliasFor(
+            annotation = Component.class
+        )
+        String value() default &quot;&quot;;
+    }
+
+@RequestController内容
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Controller
+    @ResponseBody
+    public @interface RestController {
+        @AliasFor(
+            annotation = Controller.class
+        )
+        String value() default &quot;&quot;;
+    }
+</code></pre>
+<p>可以看出@RestController注解等价于@ResponseBody ＋ @Controller。@RestController和@Controller的共同点是都用来表示Spring某个类是否可以接收HTTP请求。<br>
+二者区别： @RestController无法返回指定页面，而@Controller可以；前者可以直接返回数据，后者需要@ResponseBody辅助。</p>
+<p>关于是否可以返回页面：<br>
+@RestController无法返回指定页面，而@Controller可以。<br>
+对于Controller， 如果只是使用@RestController注解，则其方法无法返回指定页面，此时配置的视图解析器 InternalResourceViewResolver不起作用，返回的内容就是 return 里的内容。 如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。</p>
+<p>关于返回的内容：<br>
+如果需要返回<code>JSON</code>，XML或自定义mediaType内容到页面，@RestController自己就可以搞定，这个注解对于返回数据比较方便，因为它会自动将对象实体转换为JSON格式。而@Controller需要在对应的方法加上@ResponseBody注解</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://PandaBYCode.github.io/post/springbooter-yi-lai-guan-li-yu-zi-dong-zhuang-pei/">
+              <h3 class="post-title">
+                SpringBoot（二）依赖管理与自动装配
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Thanks for reading!
+  <a class="rss" href="https://PandaBYCode.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
